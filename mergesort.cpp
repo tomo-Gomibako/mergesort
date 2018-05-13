@@ -2,20 +2,6 @@
 #include <vector>
 using namespace std;
 
-vector<int> slice(vector<int> array, int start, int end) {
-	vector<int> ret = vector<int>(array.begin() + start, array.begin() + end);
-	return ret;
-}
-
-void print_array(int* array) {
-	int length = sizeof(array);
-	cout << "[";
-	for(int i = 0; i < length; i++) {
-		cout << array[i];
-		if(i != length - 1) cout << ", ";
-	}
-	cout << "]" << endl;
-}
 void print_vector(vector<int> array) {
 	int length = array.size();
 	cout << "[";
@@ -26,6 +12,10 @@ void print_vector(vector<int> array) {
 	cout << "]" << endl;
 }
 
+vector<int> slice(vector<int> array, int start, int end) {
+	vector<int> ret = vector<int>(array.begin() + start, array.begin() + end);
+	return ret;
+}
 vector<int> merge(vector<int> arr1, vector<int> arr2) {
 	int arr1_size = arr1.size();
 	int arr2_size = arr2.size();
@@ -34,8 +24,6 @@ vector<int> merge(vector<int> arr1, vector<int> arr2) {
 		arr1 = slice(arr2, 0, arr2_size);
 		arr2 = slice(mediate, 0, mediate.size());
 	}
-	// print_array(arr1);
-	// print_array(arr2);
 	vector<int> merged(arr1_size + arr2_size);
 	int cursor[] = { 0, 0, 0 };
 	while(cursor[1] < arr1_size || cursor[2] < arr2_size) {
@@ -65,10 +53,7 @@ vector<int> mergesort(vector<int> arr) {
 }
 int main() {
 	vector<int> array = { 3, 7, 1, 6, 2, 5, 4, 0 };
+	print_vector(array);
 	print_vector(mergesort(array));
-	// print_array(array);
-	// merge(array, hoge);
-	// vector<int> sliced = slice(array, 2, 5);
-	// print_vector(sliced);
 	return 0;
 }
