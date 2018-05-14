@@ -2,27 +2,21 @@
 #include <vector>
 using namespace std;
 
-void print_vector(vector<int> array) {
-	int length = array.size();
-	cout << "[";
-	for(int i = 0; i < length; i++) {
-		cout << array[i];
-		if(i != length - 1) cout << ", ";
-	}
-	cout << "]" << endl;
-}
-
-vector<int> slice(vector<int> array, int start, int end) {
-	vector<int> ret = vector<int>(array.begin() + start, array.begin() + end);
-	return ret;
-}
-vector<int> merge(vector<int> arr1, vector<int> arr2) {
+vector<int> mergesort(vector<int> arr) {
+	int arr_size = arr.size();
+	if(arr_size == 1) return arr;
+	int half = (int)(arr_size / 2) + arr_size % 2;
+	vector<int> arr1(arr.begin(), arr.begin() + half);
+	vector<int> arr2(arr.begin() + half, arr.begin() + arr_size);
 	int arr1_size = arr1.size();
 	int arr2_size = arr2.size();
+	if(arr1_size > 1) arr1 = mergesort(arr1);
+	if(arr2_size > 1) arr2 = mergesort(arr2);
+
 	if(arr1_size > arr2_size) {
-		vector<int> mediate = slice(arr1, 0, arr1_size);
-		arr1 = slice(arr2, 0, arr2_size);
-		arr2 = slice(mediate, 0, mediate.size());
+		vector<int> mediate(arr1.begin(), arr1.begin() + arr1_size);
+		vector<int> arr1(arr2.begin(), arr2.begin() + arr2_size);
+		vector<int> arr2(mediate.begin(), mediate.begin() + mediate.size());
 	}
 	vector<int> merged(arr1_size + arr2_size);
 	int cursor[] = { 0, 0, 0 };
@@ -38,22 +32,4 @@ vector<int> merge(vector<int> arr1, vector<int> arr2) {
 		}
 	}
 	return merged;
-}
-vector<int> mergesort(vector<int> arr) {
-	int arr_size = arr.size();
-	if(arr_size == 1) return arr;
-	int half = (int)(arr_size / 2) + arr_size % 2;
-	vector<int> arr1 = slice(arr, 0, half);
-	vector<int> arr2 = slice(arr, half, arr_size);
-	int arr1_size = arr1.size();
-	int arr2_size = arr2.size();
-	if(arr1_size > 1) arr1 = mergesort(arr1);
-	if(arr2_size > 1) arr2 = mergesort(arr2);
-	return merge(arr1, arr2);
-}
-int main() {
-	vector<int> array = { 3, 7, 1, 6, 2, 5, 4, 0 };
-	print_vector(array);
-	print_vector(mergesort(array));
-	return 0;
 }
